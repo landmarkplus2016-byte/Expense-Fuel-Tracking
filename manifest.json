@@ -19,7 +19,7 @@
       "src": "budget%20(1).png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any"
     }
   ]
 }
