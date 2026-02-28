@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell.exe -Command \"Get-ChildItem -Path ''C:\\\\'' -Recurse -Filter ''python.exe'' -ErrorAction SilentlyContinue 2>&1 | Where-Object { $_.FullName -notlike ''*WindowsApps*'' } | Select-Object FullName\")",
+      "Read(//c/Users/win10/**)",
+      "Bash(powershell.exe -Command \":*)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"C:\\\\tmp\\\\read_excel.ps1\")",
+      "Bash(powershell.exe -Command \"Write-Host $env:TEMP\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"/tmp/read_excel.ps1\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"/tmp/read_excel2.ps1\")"
+    ],
+    "additionalDirectories": [
+      "\\tmp"
+    ]
+  }
+}

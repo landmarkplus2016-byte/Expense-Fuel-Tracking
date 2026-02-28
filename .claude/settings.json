@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \":*)",
+      "Bash(node -e \":*)",
+      "Bash(node --version)",
+      "Bash(npm --version)",
+      "Bash(powershell.exe -Command \":*)",
+      "Bash(powershell.exe -NoProfile -Command \"Add-Type -AssemblyName System.IO.Compression.FileSystem; $path = ''C:\\\\Users\\\\win10\\\\Dropbox\\\\Claude Projects\\\\Visual Studio\\\\Telecom Department\\\\Expense-Fuel Tracking\\\\Expense-Fuel Tracking.xlsm''; $zip = [System.IO.Compression.ZipFile]::OpenRead\\($path\\); $zip.Entries | Select-Object -ExpandProperty FullName; $zip.Dispose\\(\\)\")",
+      "Bash(powershell.exe -NoProfile:*)",
+      "Bash(powershell -Command \":*)",
+      "Bash(powershell -File:*)",
+      "Bash(powershell -Command \"[xml]\\(Get-Content ''$env:TEMP\\\\ef_inspect\\\\xl\\\\sharedStrings.xml''\\) | Select-Xml ''//si'' | ForEach-Object { $_Node.InnerText } | Select-Object -First 100\")",
+      "Bash(powershell -ExecutionPolicy Bypass -File /tmp/read_strings.ps1)",
+      "Bash(/tmp/read_drawing.ps1:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File /tmp/read_drawing.ps1)",
+      "Bash(/tmp/read_export.ps1:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File /tmp/read_export.ps1)",
+      "Bash(/tmp/fix_banner.ps1:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File /tmp/fix_banner.ps1)",
+      "Bash(/tmp/rewrite_export.ps1:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File /tmp/rewrite_export.ps1)",
+      "Bash(powershell -ExecutionPolicy Bypass -File /tmp/check_dup.ps1)",
+      "Bash(/tmp/remove_dup.ps1:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File /tmp/remove_dup.ps1)",
+      "Bash(/tmp/check_end.ps1:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File /tmp/check_end.ps1)",
+      "Bash(/tmp/remove_dup2.ps1:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File /tmp/remove_dup2.ps1)"
+    ],
+    "additionalDirectories": [
+      "\\tmp"
+    ]
+  }
+}
