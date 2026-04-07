@@ -105,10 +105,10 @@ function renderExpenses() {
           <div class="record-sub">${esc(r.category)}${r.subcategory ? ' › ' + esc(r.subcategory) : ''} · ${esc(r.project)}${r.area ? ' · ' + esc(r.area) : ''}</div>
           ${r.comment ? `<div class="record-sub" style="font-style:italic">${esc(r.comment.split('\n')[0])}</div>` : ''}
         </div>
-        <div style="display:flex;align-items:center;gap:2px">
+        <div class="record-right">
           <span class="record-amount">${fmt(r.amount)}</span>
           <button class="edit-btn" onclick="editExpense(${r.id})" title="Edit">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </button>
           <button class="delete-btn" onclick="deleteExpense(${r.id})" title="Delete">&#x2715;</button>
         </div>
@@ -193,10 +193,10 @@ function renderFuels() {
           <div class="record-sub">${esc(r.project)}${r.area ? ' · ' + esc(r.area) : ''}${r.city ? ' · ' + esc(r.city) : ''}${r.coordinator ? ' · ' + esc(r.coordinator) : ''}</div>
           <div class="record-sub">KM: ${r.startkm} → ${r.endkm} (${r.endkm - r.startkm} km)${r.kartaamount ? ' · Karta: ' + fmt(r.kartaamount) : ''}</div>
         </div>
-        <div style="display:flex;align-items:center;gap:2px">
+        <div class="record-right">
           <span class="record-amount green">${fmt(r.fuelamount)}</span>
           <button class="edit-btn" onclick="editFuel(${r.id})" title="Edit">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </button>
           <button class="delete-btn" onclick="deleteFuel(${r.id})" title="Delete">&#x2715;</button>
         </div>
@@ -800,10 +800,10 @@ function renderCash() {
           <span class="month-badge" style="background:var(--orange)">${esc(fmtDate(r))}</span>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:2px">
+      <div class="record-right">
         <span class="record-amount" style="color:var(--orange)">${fmt(r.amount)}</span>
         <button class="edit-btn" onclick="editCash(${r.id})" title="Edit">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         </button>
         <button class="delete-btn" onclick="deleteCash(${r.id})" title="Delete">&#x2715;</button>
       </div>

@@ -1,8 +1,10 @@
-const CACHE_NAME = 'expense-fuel-tracker-v2';
+const CACHE_NAME = 'expense-fuel-tracker-v3';
 
 const URLS_TO_CACHE = [
   './',
   './index.html',
+  './styles.css',
+  './app.js',
   './manifest.json',
   'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',
   'https://cdn.jsdelivr.net/npm/flatpickr',
