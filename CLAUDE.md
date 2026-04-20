@@ -4,13 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A single-file mobile-first web application for tracking telecom department expenses and fuel consumption. The entire app lives in `Expense-Fuel Tracking.html` — no build tools, no dependencies to install, no server required. Open it directly in any browser including Android via file manager.
+A mobile-first PWA for tracking telecom department expenses and fuel consumption. Split across three files — `index.html`, `styles.css`, `app.js` — plus `sw.js` (service worker) and `manifest.json`. No build tools, no framework, no server required. Open `index.html` directly in any browser including Android via file manager.
 
 **Version: V1.0**
 
 ## Running the App
 
-Open `Expense-Fuel Tracking.html` directly in a browser. For local dev with live-reload:
+Open `index.html` directly in a browser. For local dev with live-reload:
 ```
 npx serve .
 # or
@@ -19,13 +19,19 @@ python -m http.server 8080
 
 ## Architecture
 
-Everything is in `Expense-Fuel Tracking.html` as a single self-contained file.
+The app is split into three source files:
 
-**`<head>`** — Base64-embedded favicon + apple-touch-icon (`budget (1).png`), theme-color `#0070C0`.
+| File | Role |
+|------|------|
+| `index.html` | Structure only — pages, forms, modals, nav |
+| `styles.css` | All styling — design system, layout, animations |
+| `app.js` | All logic — data, rendering, export, flatpickr init |
 
-**`<style>`** — CSS custom properties (`--blue:#0070C0`, `--green:#00B050`, `--orange:#FF6600`). Mobile-first, fixed bottom nav, sticky header. No external CSS framework.
+**`<head>`** — Google Fonts preconnect (`fonts.googleapis.com`, `fonts.gstatic.com`), Base64-embedded favicon + apple-touch-icon (`budget (1).png`), theme-color `#0070C0`, links to `styles.css`.
 
-**HTML body — 5 pages** toggled via `display:none/block`:
+**`styles.css`** — CSS custom properties (see Design System section below). Mobile-first, fixed bottom nav, sticky header. Uses `DM Sans` + `DM Mono` fonts from Google Fonts.
+
+**`index.html` body — 5 pages** toggled via `display:none/block`:
 - `#page-expenses` — expense form + accordion record list
 - `#page-fuel` — fuel form + accordion record list
 - `#page-analytics` — stat cards, balance card, Chart.js charts
@@ -34,9 +40,10 @@ Everything is in `Expense-Fuel Tracking.html` as a single self-contained file.
 
 Fixed bottom `<nav>` — 5 buttons in order: **Cash → Expenses → Fuel → Analytics → Export**.
 Active colors: Cash=orange, Expenses=blue (default), Fuel=green, Analytics=brown `#92400e`, Export=black `#111`.
+Active nav indicator: animated top pill (`::before` pseudo-element, spring-animated via `cubic-bezier`).
 Cash icon has ▼ polygon (money in); Expenses icon has ▲ polygon (money out).
 
-**`<script>`** — Vanilla JS, no framework. Key sections marked with `// === SECTION ===` comments:
+**`app.js`** — Vanilla JS, no framework. Key sections marked with `// === SECTION ===` comments:
 
 - **DATA STORE** — `expenses[]`, `fuels[]`, `cashEntries[]`, `settings{}`. Persisted via `save()` to localStorage keys `ef_expenses`, `ef_fuels`, `ef_cash`, `ef_settings`.
 - **EXPENSE/FUEL FORMS** — `submitExpense()` / `submitFuel()`. Records include `trackingno` field. Project Name is a `<select>` with options: ROT, TRX, ATN, PTN, RD EXP.
@@ -50,8 +57,48 @@ Cash icon has ▼ polygon (money in); Expenses icon has ▲ polygon (money out).
 - **PETTY CASH** — `submitCash()`, `renderCash()`, `editCash()`, `saveCashEdit()`, `deleteCash()`.
 - **SETTINGS** — Settings modal: Name + Account fields, Backup/Restore JSON, Clear All Data button. Copyright shows "© 2026 LMP Expense & Fuel Tracker V1.0".
 
+## Design System (styles.css)
+
+CSS custom properties defined in `:root`:
+
+```css
+/* Brand */
+--blue: #0070C0;   --blue-dark: #005a9a;   --blue-light: #EBF5FF;
+--green: #00B050;  --green-dark: #009040;  --green-light: #E8F8F0;
+--orange: #FF6600; --orange-dark: #d45500; --orange-light: #FFF4EC;
+
+/* UI */
+--bg: #EEF3F9;  --card: #FFFFFF;  --text: #0F172A;
+--text-secondary: #374151;  --muted: #6B7280;  --border: #E2E8F0;
+
+/* Geometry */
+--radius-xs: 8px;  --radius-sm: 12px;  --radius: 16px;
+--radius-lg: 20px;  --radius-pill: 100px;
+
+/* Shadows */
+--shadow-xs / --shadow-sm / --shadow / --shadow-lg
+
+/* Layout */
+--nav-h: 70px;  --header-h: 60px;
+```
+
+**Fonts:** `DM Sans` (UI body/labels) + `DM Mono` (all money amounts, dates in badges). Loaded from Google Fonts with `preconnect` hints.
+
+**Form layout:** Single-column on `< 420px`, 2-column at `≥ 420px` for `.form-row` (not `.full`). This is the key mobile UX decision — do NOT force 2-column at smaller breakpoints.
+
+**Input sizing:** `min-height: 50px`, `padding: 13px 14px`. All number inputs have `inputmode="decimal"` or `inputmode="numeric"` for correct mobile keyboard.
+
+**Rendered record HTML** (from `app.js`): uses `.record-right` class for the amount + edit + delete wrapper. Do not use inline `style="display:flex..."` there.
+
+**Page transitions:** `.page.active` animates via `@keyframes pageIn` (fade + translateY).
+
+**Modal animations:** `.modal-overlay.open` fades in; `.modal` slides up with spring (`cubic-bezier(.34,1.2,.64,1)`). Drag handle via `.modal::before` pseudo-element.
+
+**Service worker cache:** `sw.js` version is `expense-fuel-tracker-v3`. Bump version whenever `styles.css`, `app.js`, or `index.html` changes significantly so users get fresh assets.
+
 ## External CDN Dependencies
 
+- **Google Fonts** `https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500` — UI + monospace fonts
 - **flatpickr** `https://cdn.jsdelivr.net/npm/flatpickr` + CSS — date picker (`altInput:true`, `altFormat:'j-M-Y'`, stored as `YYYY-MM-DD`)
 - **ExcelJS** `https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js` — Excel export with full cell styling
 - **FileSaver.js** `https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js` — browser file download
@@ -123,3 +170,36 @@ To swap: `$b64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes('path.jpg'))`
 - Use `[IO.File]::ReadAllText` / `WriteAllText` with `[Text.Encoding]::UTF8`
 - **Avoid em-dashes (—) in PS string literals** — causes `TerminatorExpectedAtEndOfString` parse error
 - Use `[regex]::Replace($content, '(?s)pattern', replacement)` for multiline find/replace
+- When replacing HTML blocks containing special chars (em-dash, curly quotes), use a heredoc `@" ... "@` for the replacement string rather than escaped inline strings
+
+## Changelog
+
+### 2026-04-20 — Excel Export Date Sorting
+
+**`app.js`:** All three Excel export paths (`exportFiltered`, `exportByTracking`, full export) now sort expenses and fuel rows by date ascending (oldest first) before writing to the sheet. Uses `.slice().sort()` to avoid mutating the source arrays.
+
+### 2026-04-08 — Mobile UI Redesign
+
+**Architecture change:** App split from single `Expense-Fuel Tracking.html` into separate `index.html` + `styles.css` + `app.js`. All logic and styling unchanged; only separation of concerns.
+
+**`styles.css` — complete rewrite:**
+- New font stack: `DM Sans` (UI) + `DM Mono` (amounts/dates) via Google Fonts
+- Form inputs: `min-height: 50px`, `13px 14px` padding — large tap targets
+- Form grid: **single-column on `< 420px`**, 2-col at `≥ 420px` (critical mobile fix — was always 2-col)
+- Bottom nav: 70px tall, spring-animated active indicator pill via `::before` pseudo
+- Modals: slide-up spring animation + backdrop blur + drag handle visual
+- Page transitions: `@keyframes pageIn` fade+slide on every page switch
+- Toast: pill-shaped, spring-animated, positioned above nav using `--nav-h` variable
+- Record amounts: `DM Mono` monospace for scannable alignment
+- Design tokens: full set of `--radius-*`, `--shadow-*`, `--*-light`, `--*-dark` variants
+
+**`app.js` — targeted fixes:**
+- Replaced `style="display:flex;align-items:center;gap:2px"` inline on record action wrappers with `.record-right` CSS class (expenses, fuel, cash render functions)
+- Edit button SVG size: 15px → 16px
+
+**`index.html` — targeted improvements:**
+- Added Google Fonts `preconnect` hints to `<head>`
+- All `<input type="number">` now have `inputmode="decimal"` or `inputmode="numeric"` for correct mobile keyboard
+- Balance card, cash record header, export preview card: improved from heavy inline styles to use design system tokens
+
+**`sw.js`:** Cache bumped `v2` → `v3`; added `styles.css` and `app.js` to cached URLs.

@@ -509,12 +509,12 @@ async function exportExcel() {
     } catch(e2) {}
 
     var expHeaders = ['Month','Day','Project Name','Site ID','Job Code','Category','Sub Category','Item Description','Amount (EGP)','Comment','Coordinator','Area'];
-    var expRows = expenses.map(function(r){ return [r.month,r.day,r.project,r.siteid,r.jobcode,r.category,r.subcategory,r.description,r.amount,r.comment,r.coordinator,r.area]; });
+    var expRows = expenses.slice().sort(function(a,b){ return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; }).map(function(r){ return [r.month,r.day,r.project,r.siteid,r.jobcode,r.category,r.subcategory,r.description,r.amount,r.comment,r.coordinator,r.area]; });
     var expTotal = expenses.reduce(function(s,r){ return s+r.amount; }, 0);
     await buildSheet(wb, logoId, 'Expenses Tracking', 'Expenses Tracking', expHeaders, expRows, expTotal, null, null, [7,5,20,12,10,16,14,30,13,22,16,10], empName, account, null);
 
     var fuelHeaders = ['Month','Day','Project Name','Site ID','Job Code','Start KM','End KM','Fuel Amount','Area','Driver','City','Karta Amount','Coordinator'];
-    var fuelRows = fuels.map(function(r){ return [r.month,r.day,r.project,r.siteid,r.jobcode,r.startkm,r.endkm,r.fuelamount,r.area,r.driver,r.city,r.kartaamount,r.coordinator]; });
+    var fuelRows = fuels.slice().sort(function(a,b){ return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; }).map(function(r){ return [r.month,r.day,r.project,r.siteid,r.jobcode,r.startkm,r.endkm,r.fuelamount,r.area,r.driver,r.city,r.kartaamount,r.coordinator]; });
     var fuelTotal  = fuels.reduce(function(s,r){ return s+r.fuelamount;  }, 0);
     var kartaTotal = fuels.reduce(function(s,r){ return s+r.kartaamount; }, 0);
     await buildSheet(wb, logoId, 'Fuel Tracking', 'Fuel Tracking', fuelHeaders, fuelRows, fuelTotal+kartaTotal, fuelTotal, kartaTotal, [7,5,20,12,10,10,10,14,12,22,12,13,16], empName, account, null);
@@ -602,12 +602,12 @@ async function exportByTracking() {
     } catch(e2) {}
 
     var expHeaders  = ['Month','Day','Project Name','Site ID','Job Code','Category','Sub Category','Item Description','Amount (EGP)','Comment','Coordinator','Area'];
-    var expRows     = filteredExp.map(function(r){ return [r.month,r.day,r.project,r.siteid,r.jobcode,r.category,r.subcategory,r.description,r.amount,r.comment,r.coordinator,r.area]; });
+    var expRows     = filteredExp.slice().sort(function(a,b){ return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; }).map(function(r){ return [r.month,r.day,r.project,r.siteid,r.jobcode,r.category,r.subcategory,r.description,r.amount,r.comment,r.coordinator,r.area]; });
     var expTotal    = filteredExp.reduce(function(s,r){ return s+r.amount; }, 0);
     await buildSheet(wb, logoId, 'Expenses Tracking', 'Expenses Tracking', expHeaders, expRows, expTotal, null, null, [7,5,20,12,10,16,14,30,13,22,16,10], empName, account, period);
 
     var fuelHeaders = ['Month','Day','Project Name','Site ID','Job Code','Start KM','End KM','Fuel Amount','Area','Driver','City','Karta Amount','Coordinator'];
-    var fuelRows    = filteredFuel.map(function(r){ return [r.month,r.day,r.project,r.siteid,r.jobcode,r.startkm,r.endkm,r.fuelamount,r.area,r.driver,r.city,r.kartaamount,r.coordinator]; });
+    var fuelRows    = filteredFuel.slice().sort(function(a,b){ return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; }).map(function(r){ return [r.month,r.day,r.project,r.siteid,r.jobcode,r.startkm,r.endkm,r.fuelamount,r.area,r.driver,r.city,r.kartaamount,r.coordinator]; });
     var fuelTotal   = filteredFuel.reduce(function(s,r){ return s+r.fuelamount;  }, 0);
     var kartaTotal  = filteredFuel.reduce(function(s,r){ return s+r.kartaamount; }, 0);
     await buildSheet(wb, logoId, 'Fuel Tracking', 'Fuel Tracking', fuelHeaders, fuelRows, fuelTotal+kartaTotal, fuelTotal, kartaTotal, [7,5,20,12,10,10,10,14,12,22,12,13,16], empName, account, period);
@@ -640,12 +640,12 @@ async function exportFiltered() {
     } catch(e2) {}
 
     var expHeaders = ['Month','Day','Project Name','Site ID','Job Code','Category','Sub Category','Item Description','Amount (EGP)','Comment','Coordinator','Area'];
-    var expRows = filteredExp.map(function(r){ return [r.month,r.day,r.project,r.siteid,r.jobcode,r.category,r.subcategory,r.description,r.amount,r.comment,r.coordinator,r.area]; });
+    var expRows = filteredExp.slice().sort(function(a,b){ return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; }).map(function(r){ return [r.month,r.day,r.project,r.siteid,r.jobcode,r.category,r.subcategory,r.description,r.amount,r.comment,r.coordinator,r.area]; });
     var expTotal = filteredExp.reduce(function(s,r){ return s+r.amount; }, 0);
     await buildSheet(wb, logoId, 'Expenses Tracking', 'Expenses Tracking', expHeaders, expRows, expTotal, null, null, [7,5,20,12,10,16,14,30,13,22,16,10], empName, account, period);
 
     var fuelHeaders = ['Month','Day','Project Name','Site ID','Job Code','Start KM','End KM','Fuel Amount','Area','Driver','City','Karta Amount','Coordinator'];
-    var fuelRows = filteredFuel.map(function(r){ return [r.month,r.day,r.project,r.siteid,r.jobcode,r.startkm,r.endkm,r.fuelamount,r.area,r.driver,r.city,r.kartaamount,r.coordinator]; });
+    var fuelRows = filteredFuel.slice().sort(function(a,b){ return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; }).map(function(r){ return [r.month,r.day,r.project,r.siteid,r.jobcode,r.startkm,r.endkm,r.fuelamount,r.area,r.driver,r.city,r.kartaamount,r.coordinator]; });
     var fuelTotal  = filteredFuel.reduce(function(s,r){ return s+r.fuelamount;  }, 0);
     var kartaTotal = filteredFuel.reduce(function(s,r){ return s+r.kartaamount; }, 0);
     await buildSheet(wb, logoId, 'Fuel Tracking', 'Fuel Tracking', fuelHeaders, fuelRows, fuelTotal+kartaTotal, fuelTotal, kartaTotal, [7,5,20,12,10,10,10,14,12,22,12,13,16], empName, account, period);
